@@ -102,12 +102,12 @@ public class UrlService {
             throw new RuntimeException("Unauthorized : You don't have access to this URL") ;
         }
 
-        redisService.evictUrl(shortCode);
-
         existingUrl.setLongUrl(urlDTO.getLongUrl());
         existingUrl.setDescription(urlDTO.getDescription());
 
         Url updatedUrl =  urlRepo.save(existingUrl) ;
+        redisService.evictUrl(shortCode);
+        
         return urlMapper.toDto(updatedUrl) ;
     }
 
